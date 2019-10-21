@@ -1,0 +1,22 @@
+{
+  "name": "todolistapi",
+  "version": "1.0.0",
+  "description": "Rest API used as backend in a todo list application",
+  "main": "./src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/RobsonAndradev/todoListApi"
+  },
+  "keywords": [
+    "nodejs"
+  ],
+  "author": "Robson Andrade",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.5"
+  }
+}
