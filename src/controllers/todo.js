@@ -2,6 +2,14 @@
 
 const todoListModel = require( "../models/todo" );
 
+async function doneAndUndone( res, done, id ) {
+  let todoItem = await todoListModel.findById( id );
+  todoItem.done = done;
+  todoItem.__v += 1;
+  todoListModel.upsert( todoItem );
+  res.send( todoItem );
+}
+
 module.exports = {
   set: function( app ) {
     app.get( '/', this.home );
@@ -37,19 +45,12 @@ module.exports = {
     res.send( todos );
     next();
   },
-  doneAndUndone: async ( res, done ) => {
-    let todoItem = await todoListModel.findById( req.params.id );
-    todoItem.done = done;
-    todoItem.__v += 1;
-    todoListModel.upsert( todoItem );
-    res.send( todoItem );
-  },
   markAsDone: async function( req, res, next ) {
-    this.doneAndUndone( res, true );
+    await doneAndUndone( res, true, req.params.id );
     next();
   },
   unmarkAsDone: async function( req, res, next ) {
-    this.doneAndUndone( res, false );
+    await doneAndUndone( res, false, req.params.id );
     next();
   }
 };
