@@ -21,7 +21,7 @@ module.exports = {
       name: req.body.name,
       done: req.body.done
     };
-    todoListModel.add( todoItem );
+    todoListModel.upsert( todoItem );
     res.send( todoItem );
     next();
   },
@@ -37,17 +37,19 @@ module.exports = {
     res.send( todos );
     next();
   },
-  markAsDone: async ( req, res, next ) => {
+  doneAndUndone: async ( res, done ) => {
     let todoItem = await todoListModel.findById( req.params.id );
-    todoItem.done = true;
+    todoItem.done = done;
     todoItem.__v += 1;
-    todoListModel.done( todoItem );
+    todoListModel.upsert( todoItem );
     res.send( todoItem );
+  },
+  markAsDone: async function( req, res, next ) {
+    this.doneAndUndone( res, true );
     next();
   },
-  unmarkAsDone: ( req, res, next ) => {
-    const id = req.params.id;
-    res.send( '<h1> Unmarking ' + id + ' as done </h1>' );
+  unmarkAsDone: async function( req, res, next ) {
+    this.doneAndUndone( res, false );
     next();
   }
 };

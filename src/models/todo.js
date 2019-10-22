@@ -22,7 +22,7 @@ const todoListSchema = new Schema({
 const TodoList = mongoose.model( "todolist", todoListSchema );
 
 module.exports = {
-  add: async ( item ) => {
+  upsert: async ( item ) => {
     await conn.open();
     let tl = new TodoList( item );
     await tl.save();
@@ -44,12 +44,6 @@ module.exports = {
     let tls = await TodoList.find();
     conn.close();
     return tls;
-  },
-  done: async ( item ) => {
-    await conn.open();
-    let tl = new TodoList( item );
-    await tl.save();
-    conn.close();
   },
   findById: async ( id ) => {
     await conn.open();
