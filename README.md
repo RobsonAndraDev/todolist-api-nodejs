@@ -1,5 +1,6 @@
 # TODO List Rest API
 This is a nodejs rest API, that was built by study away. The goal is to use this API as backend from some differents of frontend applications.
+This API use mongodb as database and express to handler http requests.
 
 ## Usage
 

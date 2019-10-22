@@ -38,5 +38,11 @@ module.exports = {
       }
       conn.close();
     });
+  },
+  list: async () => {
+    await conn.open();
+    let todos = await TodoList.find();
+    conn.close();
+    return todos;
   }
 };

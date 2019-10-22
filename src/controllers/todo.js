@@ -31,8 +31,10 @@ module.exports = {
     res.send( '<h1> Item ' + id + ' was removed </h1>' );
     next();
   },
-  list: ( req, res, next ) => {
-    res.send( '<h1> Listing </h1>' );
+  list: async ( req, res, next ) => {
+    let todos = await todoListModel.list();
+    console.log( todos );
+    res.send( todos );
     next();
   },
   markAsDone: ( req, res, next ) => {
