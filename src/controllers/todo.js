@@ -20,7 +20,7 @@ module.exports = {
     app.get( '/undone/:id', this.unmarkAsDone );
   },
   home: ( req, res, next ) => {
-    res.send( '<h1>That`s fine</h1>' );
+    res.send( '<h1>This is a Rest API</h1>' );
     next();
   },
   add: ( req, res, next ) => {
