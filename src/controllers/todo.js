@@ -37,9 +37,12 @@ module.exports = {
     res.send( todos );
     next();
   },
-  markAsDone: ( req, res, next ) => {
-    const id = req.params.id;
-    res.send( '<h1> Marking ' + id + ' as done </h1>' );
+  markAsDone: async ( req, res, next ) => {
+    let todoItem = await todoListModel.findById( req.params.id );
+    todoItem.done = true;
+    todoItem.__v += 1;
+    todoListModel.done( todoItem );
+    res.send( todoItem );
     next();
   },
   unmarkAsDone: ( req, res, next ) => {
