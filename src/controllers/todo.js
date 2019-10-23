@@ -57,5 +57,4 @@ module.exports = {
 
 // TODO - read about next
 // TODO - read about promise
-// TODO - read about map
-// TODO - read about redux
+// TODO - read about reduce
