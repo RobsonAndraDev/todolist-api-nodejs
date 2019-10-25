@@ -9,6 +9,10 @@ let port = process.env.TODO_API_PORT;
 
 app.use( bodyParser.urlencoded({ extended: false }) );
 app.use( bodyParser.json() );
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  next();
+});
 todo.set( app );
 
 if( port == null ) {
