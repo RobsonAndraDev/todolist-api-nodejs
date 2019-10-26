@@ -4,10 +4,6 @@ const conn = require("./conn"),
   mongoose = require("mongoose"),
   Schema = mongoose.Schema;
 const todoListSchema = new Schema({
-  id: {
-    type: Number,
-    required: true
-  },
   name: {
     type: String,
     required: true
@@ -30,7 +26,7 @@ module.exports = {
   },
   remove: async ( id ) => {
     await conn.open();
-    TodoList.deleteOne({ id: id }, err => {
+    TodoList.deleteOne({ _id: id }, err => {
       if( !err ) {
         console.log( "Item", id, "was removed" );
       } else {
@@ -47,8 +43,14 @@ module.exports = {
   },
   findById: async ( id ) => {
     await conn.open();
-    let tl = await TodoList.findById( id );
-    conn.close();
+    let tl = await TodoList.findById( id, err => {
+      if( !err ) {
+        console.log( "Item", id, "find" );
+      } else {
+        console.log( "Something wrong on findById" );
+      }
+      conn.close();
+    });
     return tl;
   }
 };

@@ -4,9 +4,11 @@ const todoListModel = require( "../models/todo" );
 
 async function doneAndUndone( res, done, id ) {
   let todoItem = await todoListModel.findById( id );
-  todoItem.done = done;
-  todoItem.__v += 1;
-  todoListModel.upsert( todoItem );
+  if( todoItem ) {
+    todoItem.done = done;
+    todoItem.__v += 1;
+    todoListModel.upsert( todoItem );
+  }
   res.send( todoItem );
 }
 
@@ -25,7 +27,6 @@ module.exports = {
   },
   add: ( req, res, next ) => {
     let todoItem = {
-      id: req.body.id,
       name: req.body.name,
       done: req.body.done
     };
