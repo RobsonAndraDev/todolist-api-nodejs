@@ -12,6 +12,10 @@ const todoListSchema = new Schema({
     type: Boolean,
     required: true
   },
+  datetime: {
+    type: Date,
+    required: true
+  }
 }, {
   collection: "todolist"
 });
@@ -48,6 +52,19 @@ module.exports = {
         console.log( "Item", id, "find" );
       } else {
         console.log( "Something wrong on findById" );
+      }
+      conn.close();
+    });
+    return tl;
+  },
+  findWhenAdded: async ( name, now ) => {
+    await conn.open();
+    
+    let tl = await TodoList.find({ name: name, datetime: now }, err => {
+      if( !err ) {
+        console.log( "Item", name, "find" );
+      } else {
+        console.log( "Something wrong on findWhenAdded" );
       }
       conn.close();
     });

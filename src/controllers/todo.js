@@ -20,23 +20,25 @@ module.exports = {
     app.get( '/list', this.list );
     app.get( '/done/:id', this.markAsDone );
     app.get( '/undone/:id', this.unmarkAsDone );
+    app.get( '/find/:name/:now', this.findOne );
   },
   home: ( req, res, next ) => {
     res.send( '<h1>This is a Rest API</h1>' );
     next();
   },
-  add: ( req, res, next ) => {
+  add: async ( req, res, next ) => {
     let todoItem = {
       name: req.body.name,
-      done: req.body.done
+      done: req.body.done,
+      datetime: req.body.now
     };
-    todoListModel.upsert( todoItem );
+    await todoListModel.upsert( todoItem );
     res.send( todoItem );
     next();
   },
-  remove: ( req, res, next ) => {
+  remove: async ( req, res, next ) => {
     const id = req.params.id;
-    todoListModel.remove( id );
+    await todoListModel.remove( id );
     res.send( '<h1> Item ' + id + ' was removed </h1>' );
     next();
   },
@@ -52,6 +54,14 @@ module.exports = {
   },
   unmarkAsDone: async function( req, res, next ) {
     await doneAndUndone( res, false, req.params.id );
+    next();
+  },
+  findOne: async ( req, res, next ) => {
+    const name = req.params.name;
+    const now = req.params.now;
+    const todoItem = await todoListModel.findWhenAdded( name, now );
+    console.log( "New:", todoItem );
+    res.send( todoItem );
     next();
   }
 };
