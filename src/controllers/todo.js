@@ -38,8 +38,8 @@ module.exports = {
   },
   remove: async ( req, res, next ) => {
     const id = req.params.id;
-    await todoListModel.remove( id );
-    res.send( '<h1> Item ' + id + ' was removed </h1>' );
+    const tl = await todoListModel.remove( id );
+    res.send( tl );
     next();
   },
   list: async ( req, res, next ) => {

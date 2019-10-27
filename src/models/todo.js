@@ -30,7 +30,7 @@ module.exports = {
   },
   remove: async ( id ) => {
     await conn.open();
-    TodoList.deleteOne({ _id: id }, err => {
+    const tl = await TodoList.deleteOne({ _id: id }, err => {
       if( !err ) {
         console.log( "Item", id, "was removed" );
       } else {
@@ -38,6 +38,7 @@ module.exports = {
       }
       conn.close();
     });
+    return tl;
   },
   list: async () => {
     await conn.open();
