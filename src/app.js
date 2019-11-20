@@ -3,7 +3,7 @@
 const bodyParser = require( "body-parser" ),
   express = require( 'express' ),
   app     = express(),
-  todo    = require( './controllers/todo' );
+  Todo    = require( './controllers/todo' );
 
 let port = process.env.TODO_API_PORT;
 
@@ -14,6 +14,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Headers', '*');
   next();
 });
+const todo = new Todo();
 todo.set( app );
 
 if( port == null ) {
